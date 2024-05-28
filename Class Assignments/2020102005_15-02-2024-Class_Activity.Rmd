@@ -1,0 +1,47 @@
+---
+title: "CLass Activity - 15-02-2024 - Srujana Vanka"
+output: html_notebook
+---
+
+```{r}
+p <- c(0.0050, 0.0010, 0.0100, 0.0005, 0.0009, 0.0400, 0.0560, 0.0500, 0.0480, 0.0130, 0.0370, 0.0430, 0.0020, 0.0250, 0.1100, 0.0700, 0.0800)
+
+bon <- c()
+bh <- c()
+
+# Sort the p-values and the corrected p-values
+bon <- sort(p.adjust(p, method = "bonferroni"))
+bh <- sort(p.adjust(p, method = "BH"))
+
+# Plot the results with custom y-axis tick marks
+plot(sort(p), type = "l", col = "black", ylab = "p-values", xlab = "Sorted outcomes", main = "Comparison of p−value Correction Methods", ylim = c(0, 1), yaxt = "n")
+axis(2, at = seq(0, 1, by = 0.2), labels = seq(0, 1, by = 0.2))
+lines(bon, type = "b", col = "green", lty = "dashed")
+lines(bh, type = "b", col = "red", lty = "dashed")
+abline(h = 0.05, lty = "dashed")
+legend("topright", legend = c("Bonferroni", "Benjamini-Hochberg", "Unadjusted"), fill = c("green", "red", "black"))
+
+
+```
+
+The plot shows the observed (unadjusted) p-values, as well as the corrected p-
+values.
+
+The Bhenjamini-Hochberg corrected ones lie very close to the line alpha = 0.05 whereas that of Bonferroni
+are much higher.
+
+As expected, the unadjusted p-values vary widely and include several values that are less than 0.05, the typical threshold for statistical significance. When the p-values are corrected for multiple comparisons, the threshold for statistical significance is much more conservative, and only a few of the p-values remain significant after correction.
+
+The Bonferroni correction is one such method, which is very conservative in that it adjusts the significance
+level for each test by dividing it by the number of tests being performed.
+
+The Benjamini-Hochberg (BH) correction, on the other hand, is a less conservative method that controls the
+false discovery rate (FDR) instead of the familywise error rate (FWER). The FDR is the expected proportion
+of false positives among all the significant results.
+
+When plotting the p-values after correction using these two methods, it’s common to see that the BH-corrected
+p-values are generally lower than the Bonferroni-corrected p-values. This is because the BH method is less
+conservative than the Bonferroni method, meaning it allows more significant results to be detected.
+
+Yes, the Bonferroni method is a more conservative approach.
+
